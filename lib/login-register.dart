@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'clipper.dart';
 import 'custom/customTextField.dart';
+import 'home.dart';
 
 
 class LoginRegister extends StatefulWidget {
@@ -55,9 +56,9 @@ class _LoginRegisterState extends State<LoginRegister> {
                     height: 154,
                     child: Align(
                       child: Text(
-                        "GO",
+                        "HI",
                         style: TextStyle(
-                          fontSize: 120,
+                          fontSize: 80,
                           fontWeight: FontWeight.bold,
                           color: Theme.of(context).primaryColor,
                         ),
@@ -144,7 +145,7 @@ class _LoginRegisterState extends State<LoginRegister> {
         try {
           FirebaseUser user = (await FirebaseAuth.instance
               .signInWithEmailAndPassword(email: _email, password: _password)).user;
-          Navigator.of(context).pushReplacementNamed('/home');
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
         } catch (error) {
           switch (error.code) {
             case "ERROR_USER_NOT_FOUND":
@@ -212,7 +213,7 @@ class _LoginRegisterState extends State<LoginRegister> {
           UserUpdateInfo userUpdateInfo = new UserUpdateInfo();
           userUpdateInfo.displayName = _displayName;
           user.updateProfile(userUpdateInfo).then((onValue) {
-            Navigator.of(context).pushReplacementNamed('/home');
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>HomeScreen()));
             Firestore.instance.collection('users').document().setData(
                 {'email': _email, 'displayName': _displayName}).then((onValue) {
               _sheetController.setState(() {
